@@ -1,123 +1,59 @@
-# PayFlow Hub Workspace
+# PayFlow Hub Course Workspace
 
-`PayFlow Hub` is a learning-focused payment platform repo organized as a .NET monorepo workspace.
+`PayFlow Hub` is now intentionally reset and restarted as a course-driven fintech engineering pet project.
 
-## Scope Of This Workspace
+## What This Folder Is Now
 
-This folder contains:
+This workspace is no longer treated as a partially-built platform scaffold.
 
-- architecture and domain documents for the platform;
-- the .NET solution scaffold for the backend services;
-- shared contracts that define cross-service HTTP conventions;
-- the first runnable service entrypoints for the main bounded contexts.
+Instead, it is the starting point of a structured learning course where the codebase will be rebuilt from scratch in small stages. Each stage should teach one layer of the system and explain it in plain language for a beginner, while still growing toward a realistic fintech architecture.
 
-## Solution Layout
+## Learning Objective
 
-```text
-.
-├── PayFlowHub.sln
-├── Directory.Build.props
-├── .editorconfig
-├── docs/
-│   ├── adr/
-│   ├── bounded-contexts.md
-│   ├── domain-map.md
-│   ├── glossary.md
-│   ├── use-cases.md
-│   └── vision.md
-└── src/
-    ├── ApiGateway/
-    ├── BuildingBlocks/
-    └── Services/
-```
+The goal is not only to end up with a payment platform demo.
+
+The goal is to learn:
+
+- how payments work conceptually;
+- how fintech systems are decomposed into services and workflows;
+- why specific technologies appear in modern payment stacks;
+- how simple implementations evolve into production-grade designs;
+- how to reason about trade-offs, operational risk, reliability, and architecture.
 
 ## Current Status
 
-The repository now has the architectural baseline and the first service scaffold:
+The previous implementation was intentionally cleaned up.
 
-- `PayFlowHub.ApiGateway`
-- `PayFlowHub.PaymentOrchestrator.Api`
-- `PayFlowHub.RoutingEngine.Api`
-- `PayFlowHub.ProviderGateway.Api`
-- `PayFlowHub.Contracts`
+The project is restarting from a fresh course baseline:
 
-API Gateway now also contains the first unified public payment contract:
+- no active service implementation;
+- no active `.NET` solution scaffold;
+- no active tests or runtime code yet;
+- only the course structure and learning plan remain.
 
-- `POST /api/v1/payments` with explicit `X-Correlation-Id` and `Idempotency-Key` handling;
-- contract-oriented endpoint metadata for the first public payment creation flow;
-- baseline request/response DTO contracts for payment creation.
+## What To Read First
 
-Payment Orchestrator now also contains the first domain model baseline:
+- [docs/course-roadmap.md](</D:\VS_projects\C#\PetProject\PetProject\docs\course-roadmap.md>)
+- [docs/modules/00-fintech-foundations.md](</D:\VS_projects\C#\PetProject\PetProject\docs\modules\00-fintech-foundations.md>)
+- [docs/modules/01-system-vision.md](</D:\VS_projects\C#\PetProject\PetProject\docs\modules\01-system-vision.md>)
+- [docs/stages/2026-05-28-course-reset-baseline.md](</D:\VS_projects\C#\PetProject\PetProject\docs\stages\2026-05-28-course-reset-baseline.md>)
 
-- `Payment` aggregate root with lifecycle transitions;
-- `Refund` child entity with approval and rejection rules;
-- `Money` and `PaymentMethodSnapshot` value objects;
-- unit tests for the most important invariants.
+## How This Project Will Grow
 
-## What To Inspect
+The future implementation should follow this pattern:
 
-- [docs/adr/0002-unified-create-payment-contract.md](</D:\VS_projects\C#\PetProject\PetProject\docs\adr\0002-unified-create-payment-contract.md>)
-- [docs/adr/0003-payment-domain-model-boundaries.md](</D:\VS_projects\C#\PetProject\PetProject\docs\adr\0003-payment-domain-model-boundaries.md>)
-- [src/ApiGateway/PayFlowHub.ApiGateway/Program.cs](</D:\VS_projects\C#\PetProject\PetProject\src\ApiGateway\PayFlowHub.ApiGateway\Program.cs>)
-- [src/Services/PaymentOrchestrator/PayFlowHub.PaymentOrchestrator.Api/Domain/Payments/Payment.cs](</D:\VS_projects\C#\PetProject\PetProject\src\Services\PaymentOrchestrator\PayFlowHub.PaymentOrchestrator.Api\Domain\Payments\Payment.cs>)
-- [tests/PayFlowHub.ApiGateway.ContractTests/CreatePaymentContractTests.cs](</D:\VS_projects\C#\PetProject\PetProject\tests\PayFlowHub.ApiGateway.ContractTests\CreatePaymentContractTests.cs>)
-- [tests/PayFlowHub.PaymentOrchestrator.UnitTests/PaymentDomainTests.cs](</D:\VS_projects\C#\PetProject\PetProject\tests\PayFlowHub.PaymentOrchestrator.UnitTests\PaymentDomainTests.cs>)
+1. Start with the simplest useful version of a concept.
+2. Explain why that version is good for learning.
+3. Show its weaknesses and limits.
+4. Later replace or evolve it with a stronger production-style design.
+5. Explain clearly why the newer design is better and what trade-offs it introduces.
 
-## How To Run This Stage
+## Next Practical Step
 
-Restore and build:
+The next stage should begin with Module 0/1 level work:
 
-```powershell
-dotnet restore PayFlowHub.sln
-dotnet build PayFlowHub.sln --configuration Release --no-restore
-```
-
-Run all current tests:
-
-```powershell
-dotnet test PayFlowHub.sln --configuration Release --no-build
-```
-
-Run API Gateway locally:
-
-```powershell
-dotnet run --project src/ApiGateway/PayFlowHub.ApiGateway/PayFlowHub.ApiGateway.csproj
-```
-
-Try the first payment endpoint:
-
-```powershell
-$headers = @{
-  "X-Correlation-Id" = "corr-001"
-  "Idempotency-Key" = "idem-001"
-}
-
-$body = @{
-  merchantId = "merchant-1"
-  orderId = "order-001"
-  amountMinor = 1250
-  currency = "USD"
-  description = "test payment"
-} | ConvertTo-Json
-
-Invoke-RestMethod `
-  -Method Post `
-  -Uri "http://localhost:5000/api/v1/payments" `
-  -Headers $headers `
-  -Body $body `
-  -ContentType "application/json"
-```
-
-## How It Works Right Now
-
-- API Gateway validates required operational headers and the minimal payment payload.
-- A normalized `Idempotency-Key` is stored in an in-memory cache together with the first accepted response.
-- Repeating the same key with the same payload returns the original payment response.
-- Reusing the same key with a different payload returns `409 Conflict`.
-- Payment Orchestrator domain code is not wired into the endpoint yet; at this stage it is validated independently through unit tests.
-
-## Next Steps
-
-1. Wire API Gateway create payment contract to the orchestrator command surface.
-2. Add EF Core persistence mappings and first migrations (PostgreSQL).
-3. Persist idempotency state outside process memory and introduce canonical request hashing.
+- clarify fintech terms;
+- define the payment lifecycle;
+- define actors and responsibilities;
+- re-establish the system vision from a pure learning perspective;
+- only then recreate the technical scaffold.

@@ -1,4 +1,4 @@
-name: payflow-hub-ci
+name: payflow-hub-course-baseline
 
 on:
   push:
@@ -7,26 +7,16 @@ on:
   pull_request:
 
 jobs:
-  build:
+  baseline:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./PetProject
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: 10.0.x
-
-      - name: Restore
-        run: dotnet restore PayFlowHub.sln
-
-      - name: Build
-        run: dotnet build PayFlowHub.sln --configuration Release --no-restore
-
-      - name: Test
-        run: dotnet test PayFlowHub.sln --configuration Release --no-build
+      - name: Verify course baseline files
+        run: |
+          test -f PetProject/README.md
+          test -f PetProject/docs/course-roadmap.md
+          test -f PetProject/docs/modules/00-fintech-foundations.md
+          test -f PetProject/docs/modules/01-system-vision.md
