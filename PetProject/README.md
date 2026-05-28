@@ -24,18 +24,23 @@ The goal is to learn:
 
 The previous implementation was intentionally cleaned up.
 
-The project is restarting from a fresh course baseline:
+The project is restarting from a fresh course baseline and has now completed the conceptual part of `Module 1`:
 
-- no active service implementation;
-- no active `.NET` solution scaffold;
-- no active tests or runtime code yet;
-- only the course structure and learning plan remain.
+- no active service implementation yet;
+- no active `.NET` solution scaffold yet;
+- the course now includes fintech foundations plus system vision artifacts;
+- glossary, use cases, bounded contexts, and architecture map are documented;
+- a simple documentation verification script now protects the course structure.
 
 ## What To Read First
 
 - [docs/course-roadmap.md](</D:\VS_projects\C#\PetProject\PetProject\docs\course-roadmap.md>)
 - [docs/modules/00-fintech-foundations.md](</D:\VS_projects\C#\PetProject\PetProject\docs\modules\00-fintech-foundations.md>)
 - [docs/modules/01-system-vision.md](</D:\VS_projects\C#\PetProject\PetProject\docs\modules\01-system-vision.md>)
+- [docs/modules/01-glossary.md](</D:\VS_projects\C#\PetProject\PetProject\docs\modules\01-glossary.md>)
+- [docs/modules/01-use-cases.md](</D:\VS_projects\C#\PetProject\PetProject\docs\modules\01-use-cases.md>)
+- [docs/modules/01-bounded-contexts.md](</D:\VS_projects\C#\PetProject\PetProject\docs\modules\01-bounded-contexts.md>)
+- [docs/modules/01-architecture-map.md](</D:\VS_projects\C#\PetProject\PetProject\docs\modules\01-architecture-map.md>)
 - [docs/stages/2026-05-28-course-reset-baseline.md](</D:\VS_projects\C#\PetProject\PetProject\docs\stages\2026-05-28-course-reset-baseline.md>)
 
 ## How This Project Will Grow
@@ -50,10 +55,9 @@ The future implementation should follow this pattern:
 
 ## Next Practical Step
 
-The next stage should begin with Module 0/1 level work:
+The next stage should begin `Module 2`:
 
-- clarify fintech terms;
-- define the payment lifecycle;
-- define actors and responsibilities;
-- re-establish the system vision from a pure learning perspective;
-- only then recreate the technical scaffold.
+- recreate the `.NET` solution structure;
+- define the first project layout;
+- introduce code-style and build discipline;
+- prepare the repository for contracts and early runtime code.

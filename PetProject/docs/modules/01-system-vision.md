@@ -1,56 +1,104 @@
-# Module 1: System Vision
+# Module 1: Видение системы
 
-## Course-Level Goal
+## Зачем нужен этот модуль
 
-`PayFlow Hub` should become a training platform for understanding how a payment orchestrator is designed, evolved, tested, and operated.
+`PayFlow Hub` строится не как набор случайных сервисов, а как учебная платформа, на которой новичок последовательно понимает форму современной платёжной системы.
 
-It is not meant to be a fake enterprise buzzword project. It is meant to be a pedagogical system that gradually exposes real engineering concerns.
+До написания solution, API и доменной модели нужно ответить на более базовые вопросы:
 
-## Why A Payment Orchestrator
+- какую проблему решает платформа;
+- кто её пользователи и участники;
+- какие сценарии она обязана поддерживать;
+- где проходят смысловые границы между частями системы;
+- почему архитектура вообще делится на контексты, а не на «папки с кодом».
 
-A payment orchestrator is a strong learning shape because it forces you to reason about:
+## Главная учебная цель
 
-- public API contracts;
-- provider abstraction;
-- routing decisions;
-- asynchronous workflows;
-- retries and compensations;
-- observability and operational support.
+После этого модуля ученик должен уметь объяснить:
 
-## Core High-Level Components
+- что такое `payment orchestration platform`;
+- чем она отличается от одного PSP SDK внутри монолита;
+- какие роли взаимодействуют с системой;
+- какие ключевые use case'ы определяют архитектуру;
+- почему единый словарь и bounded contexts важнее раннего выбора фреймворка.
 
-- `API Gateway` — the public entrypoint for merchant requests.
-- `Payment Orchestrator` — the owner of payment lifecycle state.
-- `Routing Engine` — the system that decides which provider should be used.
-- `Provider Gateway` — the adapter layer hiding provider-specific behavior.
-- `Ops Dashboard` — the operational view for understanding what the system is doing.
+## Почему выбран именно payment orchestrator
 
-## Why Not Start With Everything At Once
+Платёжный оркестратор полезен для обучения, потому что в одной системе сразу видны несколько инженерных реальностей:
 
-A beginner does not benefit from starting with Kafka, RabbitMQ, Camunda, Redis, Kubernetes, and React all in one step.
+- внешний API для мерчанта;
+- строгая доменная модель со статусами и инвариантами;
+- интеграции с внешними провайдерами;
+- маршрутизация между несколькими PSP;
+- асинхронные события и ретраи;
+- операционная видимость для расследования инцидентов.
 
-That creates confusion instead of understanding.
+Такой проект позволяет рано увидеть, почему в финтехе появляются `idempotency`, `audit trail`, `outbox`, `saga`, `rate limiting` и observability.
 
-The course should instead:
+## Системная цель PayFlow Hub
 
-1. teach the payment problem first;
-2. teach the system shape second;
-3. teach one layer of technology at a time;
-4. revisit earlier simple solutions and improve them later.
+`PayFlow Hub` должен дать мерчанту единый способ:
 
-## First Architectural Principle
+- создать платёж;
+- получить его текущий статус;
+- не зависеть напрямую от одного провайдера;
+- переживать частичные сбои и повторные запросы;
+- разбирать проблемы через понятный audit trail.
 
-The system should evolve from:
+Для оператора платформа должна дать:
 
-- understandable,
-- minimal,
-- explicit,
+- видимость жизненного цикла платежа;
+- понимание, какой провайдер был выбран и почему;
+- возможность диагностировать таймауты, отказы и рассинхронизацию.
 
-to:
+## Высокоуровневая карта системы
 
-- reliable,
-- scalable,
-- observable,
-- production-oriented.
+Подробная карта вынесена в отдельный документ:
 
-That evolution is itself part of the course.
+- [01-architecture-map.md](</D:\VS_projects\C#\PetProject\PetProject\docs\modules\01-architecture-map.md>)
+
+Список ключевых смысловых артефактов модуля:
+
+- [01-glossary.md](</D:\VS_projects\C#\PetProject\PetProject\docs\modules\01-glossary.md>)
+- [01-use-cases.md](</D:\VS_projects\C#\PetProject\PetProject\docs\modules\01-use-cases.md>)
+- [01-bounded-contexts.md](</D:\VS_projects\C#\PetProject\PetProject\docs\modules\01-bounded-contexts.md>)
+
+## Почему не начинаем сразу с Kafka, Redis и Camunda
+
+Новичку вредно начинать с полного production-grade стека.
+
+Если ввести `Kafka`, `RabbitMQ`, `Redis`, `Camunda`, `Kubernetes` и `React` до понимания бизнес-формы системы, студент увидит только набор технологий, но не поймёт, какие проблемы они решают.
+
+Правильная последовательность такая:
+
+1. понять платёж и его жизненный цикл;
+2. понять словарь и роли;
+3. понять форму системы и границы контекстов;
+4. только потом материализовать это в solution, API и код.
+
+## Первый архитектурный принцип курса
+
+Курс намеренно строит систему эволюционно:
+
+- сначала `простая, явная, понятная`;
+- потом `более надёжная, масштабируемая и наблюдаемая`.
+
+Это не компромисс по качеству, а педагогическая стратегия.
+
+Простое решение в начале полезно, потому что показывает базовую механику без шума.
+
+Более сильное решение позже полезно, потому что показывает реальные ограничения простого подхода:
+
+- где ломается на нагрузке;
+- где создаёт operational risk;
+- где мешает тестированию и развитию;
+- где рождает anti-patterns.
+
+## Что смотреть дальше
+
+После завершения Module 1 логичный следующий шаг — `Module 2`, где эта концептуальная карта превратится в:
+
+- `.NET` solution structure;
+- базовые проекты и contracts;
+- developer workflow;
+- первые автоматические проверки репозитория.
