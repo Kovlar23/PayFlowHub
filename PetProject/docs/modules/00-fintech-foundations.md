@@ -1,69 +1,78 @@
-# Module 0: Fintech Foundations
+# Модуль 0: Основы финтеха
 
-## Why This Exists
+## Зачем это нужно
 
-Before building payment software, you need the mental model of what the system is trying to control.
+Прежде чем создавать программное обеспечение для платежей, необходимо сформировать представление о том, что именно система пытается контролировать.
 
-If this foundation is weak, every later technical choice becomes cargo-cult engineering.
+Если это представление слабое, каждое последующее техническое решение превращается в карго-культовое проектирование.
 
-## Core Payment Terms
+## Основные условия платежей
 
-### Authorization
+### Авторизация
 
-The customer initiates a payment and the system asks a provider to reserve funds.
+Клиент инициирует платеж, и система запрашивает у поставщика резервирование средств.
 
-Money is not necessarily fully moved yet. The main purpose is to confirm that the payer can pay.
+Деньги не обязательно перемещаются полностью. Главная цель — подтвердить платежеспособность плательщика.
 
-### Capture
+### Снятие средств
 
-After authorization, the system confirms that funds should actually be collected.
+После авторизации система подтверждает, что средства действительно должны быть списаны.
 
-Some businesses capture immediately. Others capture later when goods are shipped or a service is confirmed.
+Некоторые компании снимают средства немедленно. Другие — позже, когда товар отгружен или услуга подтверждена.
 
-### Settlement
+### Расчеты (Settlement)
 
-Settlement is the downstream movement and reconciliation of money between participants.
+Расчеты — это перемещение и сверка денежных средств между участниками.
 
-In real systems, this is often more complex than the merchant-facing API suggests.
+В реальных системах это часто сложнее, чем предполагает API для продавцов.
 
-### Refund
+### Возврат средств
 
-A refund returns money after capture.
+Возврат средств осуществляется после их списания.
 
-Refund logic is not just “negative payment”. It often has different provider rules, timelines, failure modes, and audit expectations.
+Логика возврата средств — это не просто «отрицательный платеж». Она часто включает в себя различные правила поставщика услуг, сроки, режимы сбоев и требования аудита.
 
-### Chargeback
+### Возврат платежа
 
-A chargeback is usually initiated by the payer via banking/card rails rather than by the merchant.
+Возврат платежа обычно инициируется плательщиком через банковские/карточные каналы, а не продавцом.
 
-Chargebacks are operationally and financially important because they create dispute workflows and risk signals.
+Возвраты платежей имеют важное операционное и финансовое значение, поскольку они создают рабочие процессы разрешения споров и сигналы риска.
 
-### Recurring Payment
+### Регулярные платежи
 
-Recurring payments reuse a prior customer agreement and typically require scheduling, retry logic, and lifecycle state beyond a single request/response.
+Регулярные платежи используют предыдущее соглашение с клиентом и, как правило, требуют планирования, логики повторных попыток и состояния жизненного цикла, выходящего за рамки одного запроса/ответа.
 
-## Participants In A Payment System
+## Участники платежной системы
 
-- `Customer` — the person paying.
-- `Merchant` — the business receiving funds.
-- `Payment Platform` — the software layer we are building.
-- `PSP / Acquirer / Processor` — the provider or rail adapter moving payment requests further downstream.
-- `Operator` — an internal human who investigates incidents, failures, delays, or anomalies.
+- `Клиент (Customer)` — лицо, осуществляющее платеж.
 
-## Why Fintech Systems Are Strict
+- `Продавец (Merchant)` — компания, получающая средства.
 
-Payment systems are stricter than many CRUD applications because:
+- `Платежная платформа` — программный слой, который мы создаем.
 
-- duplicated requests can move money twice;
-- partial failures can create disagreement between systems;
-- audit trails matter for finance, compliance, and support;
-- timing matters because timeouts do not always mean failure;
-- provider behavior is inconsistent and often degraded in realistic ways.
+- `Провайдер / Эквайер / Процессор (PSP / Acquirer / Processor)` — поставщик услуг или адаптер канала, перемещающий запросы на платежи дальше по цепочке.
 
-## First Learning Outcome
+- `Оператор` — внутренний сотрудник, который расследует инциденты, сбои, задержки или аномалии.
 
-After this module, the student should understand:
+## Почему финтех-системы строги
 
-- why payment systems are stateful;
-- why money movement requires stronger guarantees than ordinary APIs;
-- why patterns like idempotency, outbox, saga, and audit logs appear later in the course.
+Платежные системы строже многих CRUD-приложений, потому что:
+
+- дублирующиеся запросы могут переводить деньги дважды;
+
+- частичные сбои могут создавать несоответствия между системами;
+
+- журналы аудита важны для финансового отдела, отдела соответствия требованиям и службы поддержки;
+- время имеет значение, поскольку тайм-ауты не всегда означают сбой;
+
+- поведение поставщика непоследовательно и часто ухудшается в реальных условиях.
+
+## Первый результат обучения
+
+После этого модуля студент должен понимать:
+
+- почему платежные системы являются состоятельными;
+
+- почему движение денег требует более надежных гарантий, чем обычные API;
+
+- почему такие шаблоны, как идемпотентность, исходящие сообщения, саги и журналы аудита, появляются позже в курсе.
