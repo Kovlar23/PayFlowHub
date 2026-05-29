@@ -32,7 +32,8 @@ $requiredFiles = @(
     (Join-Path $ProjectRoot "docs/modules/01-glossary.md"),
     (Join-Path $ProjectRoot "docs/modules/01-use-cases.md"),
     (Join-Path $ProjectRoot "docs/modules/01-bounded-contexts.md"),
-    (Join-Path $ProjectRoot "docs/modules/01-architecture-map.md")
+    (Join-Path $ProjectRoot "docs/modules/01-architecture-map.md"),
+    (Join-Path $ProjectRoot "docs/modules/02-workspace-and-monorepo.md")
 )
 
 foreach ($file in $requiredFiles) {
@@ -66,6 +67,7 @@ foreach ($section in $requiredStageSections) {
 }
 
 Assert-Contains -Path (Join-Path $ProjectRoot "README.md") -Needle "01-glossary.md"
+Assert-Contains -Path (Join-Path $ProjectRoot "README.md") -Needle "02-workspace-and-monorepo.md"
 Assert-Contains -Path (Join-Path $ProjectRoot "docs/modules/01-system-vision.md") -Needle "01-bounded-contexts.md"
 
 Write-Host "Course documentation verification passed."

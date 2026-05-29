@@ -24,13 +24,13 @@ The goal is to learn:
 
 The previous implementation was intentionally cleaned up.
 
-The project is restarting from a fresh course baseline and has now completed the conceptual part of `Module 1`:
+The project is restarting from a fresh course baseline and has now completed the first practical step of `Module 2`:
 
-- no active service implementation yet;
-- no active `.NET` solution scaffold yet;
-- the course now includes fintech foundations plus system vision artifacts;
-- glossary, use cases, bounded contexts, and architecture map are documented;
-- a simple documentation verification script now protects the course structure.
+- fintech foundations plus `Module 1` system vision artifacts are documented;
+- a real `.NET` solution and starter project layout now exist;
+- the repository has a minimal runnable API host and a simple structure-check harness;
+- workspace verification and CI skeleton are now aligned with the new solution shape;
+- the payment domain project is still intentionally empty of business rules because `Module 4` will teach that properly.
 
 ## What To Read First
 
@@ -41,7 +41,9 @@ The project is restarting from a fresh course baseline and has now completed the
 - [docs/modules/01-use-cases.md](</D:\VS_projects\C#\PetProject\PetProject\docs\modules\01-use-cases.md>)
 - [docs/modules/01-bounded-contexts.md](</D:\VS_projects\C#\PetProject\PetProject\docs\modules\01-bounded-contexts.md>)
 - [docs/modules/01-architecture-map.md](</D:\VS_projects\C#\PetProject\PetProject\docs\modules\01-architecture-map.md>)
+- [docs/modules/02-workspace-and-monorepo.md](</D:\VS_projects\C#\PetProject\PetProject\docs\modules\02-workspace-and-monorepo.md>)
 - [docs/stages/2026-05-28-course-reset-baseline.md](</D:\VS_projects\C#\PetProject\PetProject\docs\stages\2026-05-28-course-reset-baseline.md>)
+- [docs/stages/2026-05-29-module-02-workspace-scaffold.md](</D:\VS_projects\C#\PetProject\PetProject\docs\stages\2026-05-29-module-02-workspace-scaffold.md>)
 
 ## How This Project Will Grow
 
@@ -55,9 +57,9 @@ The future implementation should follow this pattern:
 
 ## Next Practical Step
 
-The next stage should begin `Module 2`:
+The next stage should continue `Module 2` and then prepare `Module 3`:
 
-- recreate the `.NET` solution structure;
-- define the first project layout;
-- introduce code-style and build discipline;
-- prepare the repository for contracts and early runtime code.
+- keep growing the service host without turning it into a premature big ball of mud;
+- introduce the first payment-oriented public API contracts;
+- teach `Correlation ID`, `Idempotency Key`, and request versioning;
+- preserve the boundary between transport contracts and domain logic.

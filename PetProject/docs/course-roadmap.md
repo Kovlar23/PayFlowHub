@@ -47,6 +47,13 @@ Learn:
 - why shared contracts and service boundaries matter;
 - what CI, code style, and build discipline do for a backend team.
 
+First practical baseline:
+
+- create the solution and starter project graph;
+- add one runnable API host;
+- add one offline-friendly verification harness;
+- document why this is intentionally simpler than a full production setup.
+
 ### Module 3 — Unified Payment API
 
 Learn:

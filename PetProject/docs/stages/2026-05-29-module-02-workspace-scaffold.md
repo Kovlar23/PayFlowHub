@@ -1,32 +1,3 @@
-name: payflow-hub-course-validation
-
-on:
-  push:
-    branches:
-      - main
-  pull_request:
-
-jobs:
-  validation:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v4
-        with:
-          global-json-file: global.json
-
-      - name: Verify course documents
-        run: |
-          pwsh ./PetProject/scripts/Verify-CourseDocs.ps1
-
-      - name: Verify workspace
-        run: |
-          pwsh ./PetProject/scripts/Verify-Workspace.ps1
-*** Add File: D:/VS_projects/C#/PetProject/PetProject/docs/stages/2026-05-29-module-02-workspace-scaffold.md
 # Stage Note: Module 2 Workspace Scaffold
 
 ## Learning Goal
@@ -38,7 +9,7 @@ jobs:
 - Создано решение [`PayFlowHub.sln`](/D:/VS_projects/C#/PetProject/PetProject/PayFlowHub.sln) как первая материальная форма монорепозитория.
 - Добавлены проекты [`PayFlowHub.Api`](/D:/VS_projects/C#/PetProject/PetProject/src/Api/PayFlowHub.Api/PayFlowHub.Api.csproj), [`PayFlowHub.BuildingBlocks`](/D:/VS_projects/C#/PetProject/PetProject/src/BuildingBlocks/PayFlowHub.BuildingBlocks/PayFlowHub.BuildingBlocks.csproj), [`PayFlowHub.Contracts`](/D:/VS_projects/C#/PetProject/PetProject/src/Contracts/PayFlowHub.Contracts/PayFlowHub.Contracts.csproj) и [`PayFlowHub.Modules.Payments.Domain`](/D:/VS_projects/C#/PetProject/PetProject/src/Modules/Payments/PayFlowHub.Modules.Payments.Domain/PayFlowHub.Modules.Payments.Domain.csproj).
 - Добавлен исполняемый проверочный harness [`PayFlowHub.StructureChecks`](/D:/VS_projects/C#/PetProject/PetProject/tests/PayFlowHub.StructureChecks/PayFlowHub.StructureChecks.csproj), который валидирует учебные границы без внешних тестовых пакетов.
-- Добавлены единые build-настройки в [`Directory.Build.props`](/D:/VS_projects/C#/PetProject/PetProject/Directory.Build.props) и базовые style-правила в [` .editorconfig`](/D:/VS_projects/C#/PetProject/PetProject/.editorconfig).
+- Добавлены единые build-настройки в [`Directory.Build.props`](/D:/VS_projects/C#/PetProject/PetProject/Directory.Build.props) и базовые style-правила в [`.editorconfig`](/D:/VS_projects/C#/PetProject/PetProject/.editorconfig).
 - Шаблонный `weatherforecast` заменён на учебный workspace API с endpoint'ами `/`, `/health` и `/course/workspace`.
 - Добавлены [`docs/modules/02-workspace-and-monorepo.md`](/D:/VS_projects/C#/PetProject/PetProject/docs/modules/02-workspace-and-monorepo.md), ADR [`0001-module-02-monorepo-foundation.md`](/D:/VS_projects/C#/PetProject/PetProject/docs/adr/0001-module-02-monorepo-foundation.md), stage script [`Verify-Workspace.ps1`](/D:/VS_projects/C#/PetProject/PetProject/scripts/Verify-Workspace.ps1) и обновлён CI workflow.
 
@@ -53,7 +24,7 @@ jobs:
 - shared code становится свалкой случайных утилит;
 - позже становится трудно отделить API, домен, интеграции и инфраструктуру.
 
-Этот шаг делает обратное: он намеренно строит **небольшой, но явно разложенный** каркас, где студент с первого дня видит, что разные типы ответственности живут в разных проектах.
+Этот шаг делает обратное: он намеренно строит небольшой, но явно разложенный каркас, где студент с первого дня видит, что разные типы ответственности живут в разных проектах.
 
 ## Theory
 
@@ -61,7 +32,7 @@ jobs:
 
 Монорепозиторий здесь — это один git-репозиторий, где живут несколько связанных проектов, собираемых одной solution.
 
-Это не означает, что система уже стала микросервисной. Наоборот, на старте это ближе к **modular monolith with explicit boundaries**:
+Это не означает, что система уже стала микросервисной. На старте это ближе к `modular monolith with explicit boundaries`:
 
 - один репозиторий;
 - один основной исполняемый host;
@@ -89,8 +60,8 @@ Trade-off:
 
 Он нужен, чтобы ученик с самого начала видел разницу между:
 
-- **данными, которыми системы обмениваются**;
-- **правилами, по которым живёт доменная модель**.
+- данными, которыми системы обмениваются;
+- правилами, по которым живёт доменная модель.
 
 Почему это важно:
 в плохих системах доменные сущности напрямую сериализуются наружу, а публичный API начинает диктовать внутреннюю модель. Позже это мешает и версии API, и тестированию, и развитию домена.
@@ -246,15 +217,15 @@ Set-Location D:\VS_projects\C#\PetProject\PetProject
 - Запустить `dotnet run --project .\src\Api\PayFlowHub.Api\PayFlowHub.Api.csproj` и получить JSON-ответ на `/`.
 - Убедиться, что `/course/workspace` возвращает четыре модуля.
 - Запустить `.\scripts\Verify-Workspace.ps1` и получить успешное завершение.
-- Открыть [`0001-module-02-monorepo-foundation.md`](/D:/VS_projects/C#/PetProject/PetProject/docs/adr/0001-module-02-monorepo-foundation.md) и проверить, что архитектурное решение зафиксировано явно, а не только «подразумевается кодом».
+- Открыть [`0001-module-02-monorepo-foundation.md`](/D:/VS_projects/C#/PetProject/PetProject/docs/adr/0001-module-02-monorepo-foundation.md) и проверить, что архитектурное решение зафиксировано явно, а не только подразумевается кодом.
 
 ## Common Mistakes
 
 - Решить, что каждый проект solution уже обязан быть отдельным deployable service.
-- Начать складывать доменные правила в `Contracts`, потому что «там уже есть record-типы».
+- Начать складывать доменные правила в `Contracts`, потому что там уже есть record-типы.
 - Превратить `BuildingBlocks` в универсальную папку для любого кода, который пока непонятно куда положить.
 - Считать, что раз есть `/health`, значит API-дизайн уже начат по-настоящему.
-- Игнорировать build warnings на раннем этапе и откладывать дисциплину «на потом».
+- Игнорировать build warnings на раннем этапе и откладывать дисциплину на потом.
 
 ## Simpler Version vs Better Version
 
